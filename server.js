@@ -29,16 +29,28 @@ app.get("/about", (req, res) => {
 
 // shop route
 app.get("/shop", (req, res) => {
-  storeService.getPublishedItems().then((data) => {
-    res.send(data);
-  });
+  storeService
+    .getPublishedItems()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      console.error("Failed to get categories:", error);
+      res.status(500).sendFile(__dirname + "/views/OOF.html");
+    });
 });
 
 // items route
 app.get("/items", (req, res) => {
-  storeService.getAllItems().then((data) => {
-    res.send(data);
-  });
+  storeService
+    .getAllItems()
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((error) => {
+      console.error("Failed to get categories:", error);
+      res.status(500).sendFile(__dirname + "/views/OOF.html");
+    });
 });
 
 // categories route
@@ -59,9 +71,11 @@ app.get("*", (req, res) => {
 });
 
 // Setup http server to listen to HTTP_PORT
-storeService.initialize().then(() => {
-  app.listen(HTTP_PORT, () => {
-    console.log(`Express http server listening on port ${HTTP_PORT}`);
-  });
-})
-.catch((err) => "Server failed to init from: " + err);
+storeService
+  .initialize()
+  .then(() => {
+    app.listen(HTTP_PORT, () => {
+      console.log(`Express http server listening on port ${HTTP_PORT}`);
+    });
+  })
+  .catch((err) => "Server failed to init from: " + err);
