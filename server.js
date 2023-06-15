@@ -48,7 +48,7 @@ app.get("/shop", (req, res) => {
     })
     .catch((error) => {
       console.error("Failed to get categories:", error);
-      res.status(500).type("text/html").sendFile(__dirname + "/views/OOF.html");
+      res.status(500).sendFile(__dirname + "/views/OOF.html");
     });
 });
 
@@ -65,7 +65,7 @@ app.get("/items", (req, res) => {
       })
       .catch((error) => {
         console.error("Failed to get items of selected category:", error);
-        res.status(500).type("text/html").sendFile(__dirname + "/views/OOF.html");
+        res.status(500).sendFile(__dirname + "/views/OOF.html");
       });
   } else if (minDate) {
     storeService
@@ -75,7 +75,7 @@ app.get("/items", (req, res) => {
       })
       .catch((error) => {
         console.error("Failed to get items of selected minDate:", error);
-        res.status(500).type("text/html").sendFile(__dirname + "/views/OOF.html");
+        res.status(500).sendFile(__dirname + "/views/OOF.html");
       });
   } else {
     storeService
@@ -85,7 +85,7 @@ app.get("/items", (req, res) => {
       })
       .catch((error) => {
         console.error("Failed to get categories:", error);
-        res.status(500).type("text/html").sendFile(__dirname + "/views/OOF.html");
+        res.status(500).sendFile(__dirname + "/views/OOF.html");
       });
   }
 });
@@ -135,7 +135,7 @@ app.post("/items/add", upload.single("featureImage"), (req, res) => {
       })
       .catch((err) => {
         console.error("Failed to add item:", err);
-        res.status(500).type("text/html").sendFile(path.join(__dirname, "views", "OOF.html"));
+        res.status(500).sendFile(path.join(__dirname, "views", "OOF.html"));
       });
   }
 });
@@ -153,7 +153,7 @@ app.get("/item/:id", (req, res) => {
     })
     .catch((error) => {
       console.error("Failed to get item of this id:", error);
-      res.status(500).type("text/html").sendFile(path.join(__dirname, "views", "OOF.html"));
+      res.status(500).sendFile(path.join(__dirname, "views", "OOF.html"));
     });
 });
 
@@ -166,7 +166,7 @@ app.get("/categories", (req, res) => {
     })
     .catch((error) => {
       console.error("Failed to get categories:", error);
-      res.status(500).type("text/html").sendFile(path.join(__dirname, "views", "OOF.html"));
+      res.status(500).sendFile(path.join(__dirname, "views", "OOF.html"));
     });
 });
 
