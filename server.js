@@ -175,7 +175,7 @@ app.get("/error404", (req, res) => {
 })
 
 app.get("/error500", (req, res) => {
-  res.sendFile(path.join(__dirname, "views", "500.html"));
+  res.sendFile(path.join(__dirname, "views", "OOF.html"));
 })
 
 // CATCH ALL
