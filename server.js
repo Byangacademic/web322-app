@@ -170,6 +170,14 @@ app.get("/categories", (req, res) => {
     });
 });
 
+app.get("/error404", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "404.html"));
+})
+
+app.get("/error500", (req, res) => {
+  res.sendFile(path.join(__dirname, "views", "500.html"));
+})
+
 // CATCH ALL
 app.get("*", (req, res) => {
   res.status(404).sendFile(path.join(__dirname, "views", "404.html"));
