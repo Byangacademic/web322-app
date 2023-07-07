@@ -1,0 +1,50 @@
+<!-- /*********************************************************************************
+ *  WEB322 – Assignment 4
+ *  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.
+ *  No part of this assignment has been copied manually or electronically from any other source
+ *  (including web sites) or distributed to other students.
+ *
+ *  Name: Benny Yang Student ID: 112654223 Date: July 5 2023
+ *
+ * ONLINE (CYCLIC) LINK: https://lazy-tan-fox-belt.cyclic.app
+ *
+ ********************************************************************************/ -->
+
+<div class="row">
+  <div class="col-md-12">
+    <h2>Items</h2>
+    <hr />
+    <div class="table-responsive">
+      <table class="table">
+        <thead>
+          <td>Item ID</td>
+          <td>Title</td>
+          <td>Post Date</td>
+          <td>Price</td>
+          <td>Category</td>
+          <td>Published</td>
+        </thead>
+        <tbody>
+          {{#each items}}
+            <tr>
+
+              <td>{{this.id}}</td>
+              <td>{{this.title}}</td>
+              <td>{{this.postDate}}</td>
+              <td>{{this.price}}</td>
+              <td><a
+                  href="/items?category={{this.category}}"
+                >{{this.category}}</a></td>
+              <td>{{this.published}}</td>
+            </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  {{#unless items}}
+    <div class="col-md-12 text-center">
+      <strong>{{message}}</strong>
+    </div>
+  {{/unless}}
+</div>
