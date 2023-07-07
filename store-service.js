@@ -67,6 +67,8 @@ function getCategories() {
     if (categories.length === 0) {
       reject("No category results returned");
       return;
+      reject("No category results returned");
+      return;
     }
     resolve(categories);
   });
