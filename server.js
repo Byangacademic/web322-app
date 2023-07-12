@@ -13,7 +13,6 @@
 const HTTP_PORT = process.env.PORT || 8080;
 const express = require("express");
 const app = express();
-const path = require("path");
 const multer = require("multer");
 const upload = multer();
 const cloudinary = require("cloudinary").v2;
@@ -48,6 +47,12 @@ app.engine(
           return options.fn(this);
         }
       },
+      formatDate: function (dateObj) {
+        let year = dateObj.getFullYear();
+        let month = (dateObj.getMonth() + 1).toString();
+        let day = dateObj.getDate().toString();
+        return `${year}-${month.padStart(2, "0")}-${day.padStart(2, "0")}`;
+      },
     },
   })
 );
@@ -72,6 +77,7 @@ app.use(function (req, res, next) {
 // TO HERE
 
 app.use(express.static("public"));
+app.use(express.urlencoded({ extended: true }));
 
 // Redirect to /about
 app.get("/", (req, res) => {
@@ -188,7 +194,11 @@ app.get("/items", (req, res) => {
     storeService
       .getItemsByCategory(category)
       .then((data) => {
-        res.render("items", { items: data });
+        if (data.length > 0) {
+          res.render("items", { items: data });
+        } else {
+          res.render("items", { message: "no results" });
+        }
       })
       .catch((error) => {
         console.error("Failed to get items of selected category:", error);
@@ -198,7 +208,11 @@ app.get("/items", (req, res) => {
     storeService
       .getItemsByMinDate(minDate)
       .then((data) => {
-        res.render("items", { items: data });
+        if (data.length > 0) {
+          res.render("items", { items: data });
+        } else {
+          res.render("items", { message: "no results" });
+        }
       })
       .catch((error) => {
         console.error("Failed to get items of selected minDate:", error);
@@ -208,7 +222,11 @@ app.get("/items", (req, res) => {
     storeService
       .getAllItems()
       .then((data) => {
-        res.render("items", { items: data });
+        if (data.length > 0) {
+          res.render("items", { items: data });
+        } else {
+          res.render("items", { message: "no results" });
+        }
       })
       .catch((error) => {
         console.error("Failed to get categories:", error);
@@ -219,7 +237,15 @@ app.get("/items", (req, res) => {
 
 // items add route
 app.get("/items/add", (req, res) => {
-  res.render("addItem");
+  storeService
+    .getCategories()
+    .then((categories) => {
+      res.render("addItem", { categories });
+    })
+    .catch((error) => {
+      console.error("Failed to get categories:", error);
+      res.render("addPost", { categories: [] });
+    });
 });
 
 //items add post
@@ -284,16 +310,62 @@ app.get("/item/:id", (req, res) => {
     });
 });
 
+app.get("/items/delete/:id", (req, res) => {
+  let itemId = req.params.id;
+  storeService
+    .deleteItemById(itemId)
+    .then(() => {
+      res.redirect("/items");
+    })
+    .catch((err) => {
+      res.status(500).send("Unable to Remove Category / Category not found");
+    });
+});
+
 // categories route
 app.get("/categories", (req, res) => {
   storeService
     .getCategories()
     .then((data) => {
-      res.render("categories", { categories: data });
+      if (data.length > 0) {
+        res.render("categories", { categories: data });
+      } else {
+        res.render("categories", { message: "no results" });
+      }
     })
     .catch((error) => {
       console.error("Failed to get categories:", error);
       res.render("categories", { message: "no results" });
+    });
+});
+
+app.get("/categories/add", (req, res) => {
+  res.render("addCategory");
+});
+
+app.post("/categories/add", (req, res) => {
+  let formData = req.body;
+
+  storeService
+    .addCategory(formData)
+    .then(() => {
+      res.redirect("/categories");
+    })
+    .catch((err) => {
+      console.error("Failed to add category:", err);
+      res.redirect("/categories");
+    });
+});
+
+app.get("/categories/delete/:id", (req, res) => {
+  let catId = req.params.id;
+  storeService
+    .deleteCategoryById(catId)
+    .then(() => {
+      res.redirect("/categories");
+    })
+    .catch((err) => {
+      res.status(500).send("Unable to Remove Category / Category not found");
     });
 });
 

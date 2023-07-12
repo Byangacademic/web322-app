@@ -1,10 +1,10 @@
 <!-- /*********************************************************************************
- *  WEB322 – Assignment 4
+ *  WEB322 – Assignment 5
  *  I declare that this assignment is my own work in accordance with Seneca  Academic Policy.
  *  No part of this assignment has been copied manually or electronically from any other source
  *  (including web sites) or distributed to other students.
  *
- *  Name: Benny Yang Student ID: 112654223 Date: July 5 2023
+ *  Name: Benny Yang Student ID: 112654223 Date: July 11 2023
  *
  * ONLINE (CYCLIC) LINK: https://lazy-tan-fox-belt.cyclic.app
  *
@@ -64,15 +64,16 @@
           <div class="col-md-6">
             <div class="form-group">
               <label for="category">Category:</label>
-              <select class="form-control" name="category" id="category">
-                <option value="1">Home, Garden</option>
-                <option value="2">
-                  Electronics, Computers, Video Games
-                </option>
-                <option value="3">Clothing</option>
-                <option value="4">Sports & Outdoors</option>
-                <option value="5">Pets</option>
-              </select>
+              {{#if categories}}
+                <select class="form-control" name="category" id="category">
+                  <option value="">Select Category</option>
+                  {{#each categories}}
+                    <option value="{{id}}">{{category}}</option>
+                  {{/each}}
+                </select>
+              {{else}}
+                <div>No Categories</div>
+              {{/if}}
             </div>
           </div>
           <div class="col-md-6">
